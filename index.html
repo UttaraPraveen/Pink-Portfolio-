@@ -246,11 +246,12 @@
       background: var(--yellow); padding: 36px;
       position: relative; overflow: hidden;
       transform: rotate(1.2deg);
+      margin-bottom: 24px;
     }
     .about-callout .halftone-overlay { opacity: .5; }
     .about-callout blockquote {
       font-family: 'Playfair Display', serif;
-      font-size: 1.5rem; font-style: italic;
+      font-size: 1.3rem; font-style: italic;
       line-height: 1.4; position: relative; z-index: 1;
     }
     .about-callout cite {
@@ -258,6 +259,131 @@
       font-family: 'DM Mono', monospace;
       font-size: .72rem; font-style: normal;
       color: var(--muted); position: relative; z-index: 1;
+    }
+
+    /* ─── ID CARD ────────────────────────────────────────── */
+    .id-card-scene {
+      perspective: 900px;
+      display: flex; justify-content: center;
+    }
+    .id-card-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      transform: rotate(-3deg);
+      transition: transform .4s ease;
+      cursor: none;
+    }
+    .id-card-wrap:hover { transform: rotate(0deg) translateY(-6px); }
+
+    /* lanyard string */
+    .lanyard {
+      width: 4px; height: 56px;
+      background: linear-gradient(to bottom, #e8a0b4, #d4607a);
+      margin-bottom: 0; position: relative; z-index: 0;
+      border-radius: 2px;
+    }
+    .lanyard::before {
+      content: '';
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 3px solid #9A9A9A;
+      background: #c8c8c8;
+    }
+
+    /* the card itself */
+    .id-card {
+      width: 220px;
+      background: #FAF6F0;
+      border-radius: 12px;
+      padding: 20px 20px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.1);
+      position: relative; z-index: 1;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+
+    /* paper grain texture */
+    .id-card::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 12px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: .5;
+    }
+
+    .id-card-brand {
+      text-align: center; margin-bottom: 14px;
+    }
+    .id-card-brand .brand-serif {
+      font-family: 'Playfair Display', serif;
+      font-size: .95rem; font-weight: 700;
+      color: var(--crimson); letter-spacing: .02em;
+    }
+    .id-card-brand .brand-script {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-style: italic; font-weight: 400;
+      color: var(--crimson); display: block; line-height: 1;
+    }
+
+    /* photo slot */
+    .id-photo-wrap {
+      width: 140px; height: 160px;
+      margin: 0 auto 16px;
+      background: #e0dbd4;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid rgba(0,0,0,.08);
+    }
+    .id-photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .id-photo-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px; color: #9A8F87;
+    }
+    .id-photo-placeholder svg { width: 40px; height: 40px; opacity: .5; }
+    .id-photo-placeholder span {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem; color: #9A8F87;
+      text-align: center; line-height: 1.4;
+    }
+    /* hide placeholder when img is loaded */
+    .id-photo-wrap img[src]:not([src=""]) + .id-photo-placeholder { display: none; }
+
+    /* upload button */
+    .id-upload-btn {
+      display: block; width: 100%; margin-bottom: 14px;
+      background: none; border: 1.5px dashed var(--peach);
+      border-radius: 6px; padding: 7px;
+      font-family: 'DM Mono', monospace; font-size: .62rem;
+      color: var(--muted); text-align: center; cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .id-upload-btn:hover { border-color: var(--crimson); color: var(--crimson); }
+    #id-file-input { display: none; }
+
+    .id-name {
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .85rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink); margin-bottom: 3px;
+    }
+    .id-role {
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .72rem; color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    /* barcode */
+    .id-barcode {
+      display: flex; justify-content: center; gap: 1.5px;
+      height: 28px; align-items: flex-end;
+    }
+    .id-barcode span {
+      display: block; background: var(--ink); border-radius: 1px;
+      width: 2px;
     }
 
     .skills-grid {
@@ -636,12 +762,49 @@
           </div>
         </div>
 
-        <div class="reveal">
+        <div class="reveal" style="display:flex; flex-direction:column; gap:28px;">
+
+          <!-- ID CARD -->
+          <div class="id-card-scene">
+            <div class="id-card-wrap">
+              <div class="lanyard"></div>
+              <div class="id-card">
+                <div class="id-card-brand">
+                  <span class="brand-serif">Uttara</span>
+                  <span class="brand-script">Portfolio.</span>
+                </div>
+
+                <div class="id-photo-wrap">
+                  <img id="id-photo-img" src="profile.jpeg" alt="Uttara Praveen" />
+                  <div class="id-photo-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                    </svg>
+                    <span>click below<br>to add your photo</span>
+                  </div>
+                </div>
+
+                <label class="id-upload-btn" for="id-file-input">
+                  ↑ upload photo
+                </label>
+                <input type="file" id="id-file-input" accept="image/*" />
+
+                <p class="id-name">Uttara Praveen</p>
+                <p class="id-role">IT Developer · FOSS Club Secretary</p>
+
+                <!-- decorative barcode -->
+                <div class="id-barcode" id="id-barcode"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CALLOUT -->
           <div class="about-callout">
             <div class="halftone-overlay"></div>
             <blockquote>"I don't have main character energy. I have main developer energy — shipping features nobody asked for at 2am."</blockquote>
             <cite>— me, probably</cite>
           </div>
+
         </div>
       </div>
     </div>
@@ -1041,6 +1204,31 @@
         s.style.transform = `translateY(${dir * y * 0.12}px)`;
       });
     });
+    /* ── ID CARD — barcode + photo upload ── */
+    // Generate random barcode bars
+    const barcodeEl = document.getElementById('id-barcode');
+    if (barcodeEl) {
+      const heights = [18,26,22,30,20,28,18,24,30,22,26,18,30,20,28,24,18,26,22,30,20,28];
+      barcodeEl.innerHTML = heights.map(h =>
+        `<span style="height:${h}px"></span>`
+      ).join('');
+    }
+
+    // Photo upload
+    const fileInput = document.getElementById('id-file-input');
+    const photoImg  = document.getElementById('id-photo-img');
+    if (fileInput && photoImg) {
+      fileInput.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          photoImg.src = ev.target.result;
+          photoImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      });
+    }
   </script>
 </body>
 </html>
