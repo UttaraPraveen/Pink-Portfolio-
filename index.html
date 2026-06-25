@@ -816,13 +816,14 @@
     let folderOpen = false;
 
     // Radial Fan positions for the files (forming a clean semi-circle around the main folder)
+    // Radial Fan positions for the files (forming a clean semi-circle around the main folder)
     const FAN = [
-      { x: -340, y: -200, rotate: -18, scale: 1 },
-      { x: -190, y: -300, rotate: -10, scale: 1 },
-      { x: 0,    y: -340, rotate: 0,   scale: 1 },
-      { x: 190,  y: -300, rotate: 10,  scale: 1 },
-      { x: 340,  y: -200, rotate: 18,  scale: 1 },
-      { x: 0,    y: -180, rotate: 0,   scale: 0.95 }, // Falls right behind the open flap
+      { x: -380, y: -160, rotate: -24, scale: 1 },
+      { x: -240, y: -280, rotate: -12, scale: 1 },
+      { x: -80,  y: -340, rotate: -4,  scale: 1 },
+      { x: 80,   y: -340, rotate: 4,   scale: 1 },
+      { x: 240,  y: -280, rotate: 12,  scale: 1 },
+      { x: 380,  y: -160, rotate: 24,  scale: 1 }, 
     ];
 
     function toggleFolder(e) {
