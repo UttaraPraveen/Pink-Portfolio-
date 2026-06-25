@@ -126,33 +126,119 @@
     .about-callout cite { display: block; margin-top: 16px; font-family: 'DM Mono', monospace; font-size: .72rem; font-style: normal; color: var(--muted); position: relative; z-index: 1; }
 
     /* ─── ID CARD ────────────────────────────────────────── */
-    .id-card-scene { perspective: 900px; display: flex; justify-content: center; }
-    .id-card-wrap { display: flex; flex-direction: column; align-items: center; transform: rotate(-3deg); transition: transform .4s ease; cursor: none; }
-    .id-card-wrap:hover { transform: rotate(0deg) translateY(-6px); }
-    .lanyard { width: 4px; height: 56px; background: linear-gradient(to bottom, #e8a0b4, #d4607a); margin-bottom: 0; position: relative; z-index: 0; border-radius: 2px; }
-    .lanyard::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 18px; height: 18px; border-radius: 50%; border: 3px solid #9A9A9A; background: #c8c8c8; }
-    .id-card { width: 220px; background: #FAF6F0; border-radius: 12px; padding: 20px 20px 24px; box-shadow: 0 8px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.1); position: relative; z-index: 1; border: 1px solid rgba(0,0,0,.06); }
-    .id-card::before { content: ''; position: absolute; inset: 0; border-radius: 12px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; opacity: .5; }
-    .id-card-brand { text-align: center; margin-bottom: 14px; }
+    .id-card-scene { perspective: 1000px; display: flex; justify-content: center; }
+    .id-card-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      transform: rotate(-3deg); transition: transform .6s cubic-bezier(.34,1.4,.64,1); cursor: none; position: relative;
+    }
+    .id-card-wrap:hover { transform: rotate(0deg) translateY(-8px); }
+
+    /* Lanyard Strap */
+    .lanyard-strap {
+      width: 42px; height: 70px;
+      background: repeating-linear-gradient(90deg, #f8f8f8, #f8f8f8 3px, #ececec 3px, #ececec 6px);
+      border-radius: 4px 4px 0 0;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.08);
+      position: relative; z-index: 2;
+    }
+
+    /* Metal Hardware Assembly */
+    .metal-clip-assembly {
+      position: relative; z-index: 4;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .clip-base {
+      width: 48px; height: 18px;
+      background: linear-gradient(180deg, #fdfdfd 0%, #b3b3b3 40%, #8c8c8c 50%, #d9d9d9 100%);
+      border: 1px solid #777; border-radius: 3px; margin-top: -2px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2), inset 0 2px 3px rgba(255,255,255,0.8);
+    }
+    .clip-ring {
+      width: 28px; height: 20px;
+      border: 3.5px solid #a3a3a3; border-radius: 0 0 20px 20px; margin-top: -4px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.6);
+    }
+    .clip-hook {
+      width: 12px; height: 26px;
+      border: 3.5px solid #999; border-radius: 10px; margin-top: -4px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2), inset 0 2px 3px rgba(255,255,255,0.6);
+    }
+
+    /* Hanging Charms */
+    .charms-container {
+      position: absolute; top: 12px; left: 50%; width: 0; height: 0; z-index: 5;
+    }
+    .charm-wrap {
+      position: absolute; top: 0;
+      display: flex; flex-direction: column; align-items: center;
+      transform-origin: top center;
+    }
+    .charm-left {
+      left: -24px; animation: charmSwing 3s ease-in-out infinite alternate;
+    }
+    .charm-right {
+      left: 12px; animation: charmSwing 3.5s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes charmSwing {
+      0% { transform: rotate(-12deg); }
+      100% { transform: rotate(12deg); }
+    }
+    .id-card-wrap:hover .charm-wrap {
+      animation-duration: 1.2s; /* Sweeping swing on hover */
+    }
+
+    /* Clear Plastic Sleeve */
+    .id-plastic-sleeve {
+      width: 240px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 100%);
+      border: 1.5px solid rgba(255,255,255,0.8);
+      border-radius: 12px; padding: 16px;
+      margin-top: -20px; /* Pulls sleeve up under the hook */
+      box-shadow: 
+        0 16px 40px rgba(0,0,0,0.12), 
+        inset 0 0 20px rgba(255,255,255,0.6), 
+        inset 0 1px 1px rgba(255,255,255,0.9);
+      backdrop-filter: blur(5px);
+      position: relative; z-index: 3;
+    }
+    .id-plastic-sleeve::after {
+      content: ''; position: absolute; inset: 0;
+      border: 1px solid rgba(255,255,255,0.4); border-radius: 12px; pointer-events: none;
+    }
+    .sleeve-hole {
+      width: 46px; height: 10px;
+      background: rgba(26,26,26,0.15); border-radius: 10px;
+      margin: 0 auto 16px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    /* Inner White ID Card */
+    .id-card-inner {
+      background: #FFFFFF;
+      border-radius: 8px; padding: 24px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      position: relative; border: 1px solid rgba(0,0,0,0.04);
+    }
+    .id-card-inner::before {
+      content: ''; position: absolute; inset: 0; border-radius: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    
+    /* Card Content Formatting */
+    .id-card-brand { text-align: center; margin-bottom: 14px; position: relative; z-index: 2; }
     .id-card-brand .brand-serif { font-family: 'Playfair Display', serif; font-size: .95rem; font-weight: 700; color: var(--crimson); letter-spacing: .02em; }
     .id-card-brand .brand-script { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; font-weight: 400; color: var(--crimson); display: block; line-height: 1; }
-    .id-photo-wrap { width: 140px; height: 160px; margin: 0 auto 16px; background: #e0dbd4; border-radius: 6px; overflow: hidden; position: relative; border: 2px solid rgba(0,0,0,.08); }
+    .id-photo-wrap { width: 130px; height: 150px; margin: 0 auto 16px; background: #e0dbd4; border-radius: 6px; overflow: hidden; position: relative; border: 1.5px solid rgba(0,0,0,.08); z-index: 2; }
     .id-photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .id-photo-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #9A8F87; }
     .id-photo-placeholder svg { width: 40px; height: 40px; opacity: .5; }
     .id-photo-placeholder span { font-family: 'DM Mono', monospace; font-size: .6rem; color: #9A8F87; text-align: center; line-height: 1.4; }
     .id-photo-wrap img[src]:not([src=""]) + .id-photo-placeholder { display: none; }
-    .id-upload-btn { display: block; width: 100%; margin-bottom: 14px; background: none; border: 1.5px dashed var(--peach); border-radius: 6px; padding: 7px; font-family: 'DM Mono', monospace; font-size: .62rem; color: var(--muted); text-align: center; cursor: pointer; transition: border-color .2s, color .2s; }
-    .id-upload-btn:hover { border-color: var(--crimson); color: var(--crimson); }
-    #id-file-input { display: none; }
-    .id-name { text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: .85rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); margin-bottom: 3px; }
-    .id-role { text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: .72rem; color: var(--muted); margin-bottom: 14px; }
-    .id-barcode { display: flex; justify-content: center; gap: 1.5px; height: 28px; align-items: flex-end; }
+    .id-name { text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: .85rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); margin-bottom: 3px; position: relative; z-index: 2;}
+    .id-role { text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: .72rem; color: var(--muted); margin-bottom: 14px; position: relative; z-index: 2;}
+    .id-barcode { display: flex; justify-content: center; gap: 1.5px; height: 28px; align-items: flex-end; position: relative; z-index: 2;}
     .id-barcode span { display: block; background: var(--ink); border-radius: 1px; width: 2px; }
-
-    .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .skill-tag { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; padding: 8px 18px; border: 1.5px solid var(--ink); border-radius: 100px; transition: background .2s, color .2s, border-color .2s, transform .2s; cursor: none; }
-    .skill-tag:hover { background: var(--crimson); color: #fff; border-color: var(--crimson); transform: translateY(-2px); }
 
     /* ─── STATS ──────────────────────────────────────────── */
     #stats { background: var(--blush); }
@@ -514,22 +600,67 @@
         </div>
         <div class="reveal" style="display:flex; flex-direction:column; gap:28px;">
           <div class="id-card-scene">
+            <svg width="0" height="0" style="position:absolute; width:0; height:0;">
+              <defs>
+                <linearGradient id="silver-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fdfdfd"/>
+                  <stop offset="25%" stop-color="#c4c4c4"/>
+                  <stop offset="50%" stop-color="#ffffff"/>
+                  <stop offset="75%" stop-color="#a0a0a0"/>
+                  <stop offset="100%" stop-color="#666666"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
             <div class="id-card-wrap">
-              <div class="lanyard"></div>
-              <div class="id-card">
-                <div class="id-card-brand">
-                  <span class="brand-serif">Uttara</span>
-                  <span class="brand-script">Portfolio.</span>
-                </div>
-                <div class="id-photo-wrap">
-                  <img id="id-photo-img" src="profile.jpeg" alt="Uttara Praveen" />
-                  <div class="id-photo-placeholder">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <div class="lanyard-strap"></div>
+
+              <div class="metal-clip-assembly">
+                <div class="clip-base"></div>
+                <div class="clip-ring"></div>
+                <div class="clip-hook"></div>
+
+                <div class="charms-container">
+                  <div class="charm-wrap charm-left">
+                    <svg width="8" height="18" viewBox="0 0 8 20">
+                      <rect x="1" y="0" width="6" height="10" rx="3" fill="none" stroke="url(#silver-metal)" stroke-width="2"/>
+                      <rect x="1" y="8" width="6" height="10" rx="3" fill="none" stroke="url(#silver-metal)" stroke-width="2"/>
+                    </svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" style="filter: drop-shadow(0 3px 3px rgba(0,0,0,0.3)); margin-top: -4px;">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url(#silver-metal)" stroke="#999" stroke-width="0.5"/>
+                    </svg>
+                  </div>
+                  <div class="charm-wrap charm-right">
+                    <svg width="8" height="26" viewBox="0 0 8 28">
+                      <rect x="1" y="0" width="6" height="10" rx="3" fill="none" stroke="url(#silver-metal)" stroke-width="2"/>
+                      <rect x="1" y="8" width="6" height="10" rx="3" fill="none" stroke="url(#silver-metal)" stroke-width="2"/>
+                      <rect x="1" y="16" width="6" height="10" rx="3" fill="none" stroke="url(#silver-metal)" stroke-width="2"/>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" style="filter: drop-shadow(0 3px 3px rgba(0,0,0,0.3)); margin-top: -4px;">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="url(#silver-metal)" stroke="#999" stroke-width="0.5"/>
+                    </svg>
                   </div>
                 </div>
-                <p class="id-name">Uttara Praveen</p>
-                <p class="id-role">IT Developer · FOSS Club Secretary</p>
-                <div class="id-barcode" id="id-barcode"></div>
+              </div>
+
+              <div class="id-plastic-sleeve">
+                <div class="sleeve-hole"></div>
+                
+                <div class="id-card-inner">
+                  <div class="id-card-brand">
+                    <span class="brand-serif">Uttara</span>
+                    <span class="brand-script">Portfolio.</span>
+                  </div>
+                  <div class="id-photo-wrap">
+                    <img id="id-photo-img" src="profile.jpeg" alt="Uttara Praveen" />
+                    <div class="id-photo-placeholder">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                    </div>
+                  </div>
+                  <p class="id-name">Uttara Praveen</p>
+                  <p class="id-role">IT Developer · FOSS Club Secretary</p>
+                  <div class="id-barcode" id="id-barcode"></div>
+                </div>
               </div>
             </div>
           </div>
