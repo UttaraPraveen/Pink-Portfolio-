@@ -183,12 +183,13 @@
     #chaos-folder {
       background: var(--yellow);
       overflow: visible;
+      position: relative;
     }
     #chaos-folder .section-label { color: rgba(26,26,26,.5); }
     #chaos-folder .section-heading em { color: var(--crimson); }
     .chaos-sub {
       font-size: 1.05rem; color: rgba(26,26,26,.6);
-      margin-top: -8px; margin-bottom: 80px;
+      margin-top: -8px; 
       font-style: italic;
     }
 
@@ -198,185 +199,179 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 480px;
-      padding-bottom: 48px;
+      justify-content: flex-end;
+      min-height: 600px; /* Provides room for the files to float without hitting the title */
+      padding-top: 240px; 
+      padding-bottom: 60px;
     }
 
-    /* ── THE MAIN FOLDER ── */
+    /* ── THE MAIN FOLDER (MAC OS DARK STYLE) ── */
     .main-folder {
       position: relative;
       width: 320px;
-      height: 260px;
+      height: 220px;
       cursor: pointer;
       z-index: 10;
-      flex-shrink: 0;
+      transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
       user-select: none;
-      transition: transform .3s ease;
     }
     .main-folder:hover:not(.folder-stage.open .main-folder) {
-      transform: translateY(-8px) rotate(-1.5deg);
+      transform: translateY(-8px) scale(1.02);
+    }
+    .folder-stage.open .main-folder {
+      transform: scale(0.98);
     }
 
     /* folder back body */
     .folder-back {
       position: absolute;
-      top: 32px; left: 0; right: 0; bottom: 0;
-      background: #3D3530;
-      border-radius: 4px 14px 14px 14px;
+      top: 16px; left: 0; right: 0; bottom: 0;
+      background: #383431;
+      border-radius: 0 12px 12px 12px;
       box-shadow: 0 16px 48px rgba(0,0,0,.35), 0 4px 12px rgba(0,0,0,.2);
     }
-
-    /* folder flap */
-    .folder-flap {
+    /* mac os style tab on the back */
+    .folder-back::before {
+      content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 130px; height: 38px;
-      background: #3D3530;
-      border-radius: 14px 14px 0 0;
-      transform-origin: bottom left;
-      transition: transform .6s cubic-bezier(.34,1.2,.64,1);
-      z-index: 2;
-    }
-    .folder-flap-inner {
-      position: absolute; inset: 0;
-      background: #4A3F38;
-      border-radius: 14px 14px 0 0;
-      opacity: .5;
-    }
-    .folder-stage.open .main-folder .folder-flap {
-      transform: rotate(-45deg) translateY(-6px);
+      top: -16px; left: 0;
+      width: 110px; height: 16px;
+      background: #383431;
+      border-radius: 8px 8px 0 0;
     }
 
     /* folder front content */
     .folder-front {
       position: absolute;
-      top: 32px; left: 0; right: 0; bottom: 0;
-      border-radius: 4px 14px 14px 14px;
+      top: 16px; left: 0; right: 0; bottom: 0;
+      background: #47413D;
+      border-radius: 0 12px 12px 12px;
       padding: 28px 32px;
       z-index: 3;
-      display: flex; align-items: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      transform-origin: bottom center;
+      transition: transform .6s cubic-bezier(.34,1.2,.64,1);
     }
-    .folder-label-area { width: 100%; }
-    .folder-tag {
-      display: inline-block;
-      background: var(--crimson); color: var(--cream);
-      font-family: 'DM Mono', monospace;
-      font-size: .58rem; font-weight: 600;
-      letter-spacing: .18em; text-transform: uppercase;
-      padding: 3px 10px; border-radius: 100px;
-      margin-bottom: 14px;
+    .folder-stage.open .folder-front {
+      transform: rotateX(-12deg);
     }
-    .folder-name {
+
+    /* main folder typography */
+    .folder-name-cursive {
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 700;
-      line-height: 1.2; color: var(--cream);
+      font-size: 3.5rem; font-style: italic; font-weight: 500;
+      color: #F4F0EB; line-height: 1;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-    .folder-name em { font-style: italic; color: var(--yellow); }
-    .folder-hint {
-      font-family: 'DM Mono', monospace;
-      font-size: .62rem; color: rgba(255,245,236,.45);
-      margin-top: 18px; letter-spacing: .1em;
-      transition: opacity .3s;
+    .folder-hint-box {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(244, 240, 235, 0.25);
+      padding: 8px 16px; border-radius: 4px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem; color: #F4F0EB;
+      letter-spacing: 0.05em; position: relative;
     }
-    .folder-stage.open .folder-hint { opacity: 0; }
-    .folder-lines { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
-    .folder-lines span { display: block; height: 1.5px; background: rgba(255,245,236,.12); border-radius: 1px; }
-    .folder-lines span:nth-child(1) { width: 75%; }
-    .folder-lines span:nth-child(2) { width: 55%; }
-    .folder-lines span:nth-child(3) { width: 35%; }
+    .folder-hint-box::before, .folder-hint-box::after {
+      content: ''; position: absolute;
+      width: 4px; height: 4px;
+      background: rgba(244, 240, 235, 0.6);
+      border-radius: 50%; top: 50%; transform: translateY(-50%);
+    }
+    .folder-hint-box::before { left: -2px; }
+    .folder-hint-box::after { right: -2px; }
 
     /* BOW */
     .folder-bow {
       position: absolute;
-      top: 8px; right: 20px;
-      width: 52px; height: 36px;
-      z-index: 8;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+      top: -14px; right: 24px;
+      width: 55px; height: 38px;
+      z-index: 12;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,.15));
       pointer-events: none;
     }
 
-    /* ── FILES ── */
+    /* close hint */
+    .close-hint {
+      font-family: 'DM Mono', monospace; font-size: .65rem; color: rgba(26,26,26,.35);
+      text-align: center; margin-top: 24px; letter-spacing: .12em;
+      opacity: 0; transition: opacity .4s ease .5s; pointer-events: none;
+    }
+    .folder-stage.open .close-hint { opacity: 1; }
+
+    /* ── FILES CONTAINER ── */
     .files-container {
       position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 980px;
-      height: 320px;
+      bottom: 100px; /* Anchored right behind the main folder */
+      left: 50%;
+      width: 0; height: 0; /* Center anchor point */
       pointer-events: none;
       z-index: 5;
     }
 
+    /* ── MAC OS PINK FILE CARDS ── */
     .file-card {
       position: absolute;
-      width: 188px;
-      background: #FFF8F0;
-      border-radius: 3px 12px 12px 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.15), 0 1px 4px rgba(0,0,0,.1);
+      left: 0; top: 0;
+      /* All files start stacked inside the main folder */
+      transform: translate(-50%, -50%) scale(0.5); 
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
       text-decoration: none;
-      color: var(--ink);
       opacity: 0;
       pointer-events: none;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -20%) scale(0.6) rotate(0deg);
-      transform-origin: center bottom;
-      transition:
-        opacity .4s ease,
-        transform .6s cubic-bezier(.34,1.4,.64,1),
-        box-shadow .25s ease;
+      transition: opacity .4s ease, transform .6s cubic-bezier(.34,1.4,.64,1);
       cursor: pointer;
     }
-    .file-card:hover {
-      box-shadow: 0 12px 40px rgba(0,0,0,.2), 0 3px 10px rgba(0,0,0,.12);
-      z-index: 20 !important;
-      transform: translateY(-10px) scale(1.04) !important;
+    .folder-stage.open .file-card { 
+      opacity: 1; pointer-events: auto; 
     }
-    .folder-stage.open .file-card { opacity: 1; pointer-events: auto; }
 
-    .file-tab {
-      height: 20px; width: 56px;
-      background: var(--peach);
+    .folder-icon-mac {
+      position: relative;
+      width: 90px; height: 64px;
+      background: #FFA1C5; /* Pink from your inspo */
+      border-radius: 0 6px 6px 6px;
+      box-shadow: 0 8px 20px rgba(255, 161, 197, 0.4);
+      transition: transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+    .folder-icon-mac::before {
+      content: ''; position: absolute;
+      top: -8px; left: 0;
+      width: 32px; height: 8px;
+      background: #FFA1C5;
       border-radius: 4px 4px 0 0;
-      margin-left: 14px;
     }
-    .file-body { padding: 14px 18px 18px; }
-    .file-emoji { font-size: 1.5rem; display: block; margin-bottom: 8px; }
-    .file-title {
-      font-family: 'Playfair Display', serif;
-      font-size: .95rem; font-weight: 700;
-      line-height: 1.2; margin-bottom: 7px; color: var(--ink);
+    /* Subtle 3D inner lighting */
+    .folder-icon-mac::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 35%);
+      border-radius: 0 6px 6px 6px; pointer-events: none;
     }
-    .file-desc {
-      font-size: .72rem; color: var(--muted);
-      line-height: 1.5; margin-bottom: 10px;
+    .file-card:hover .folder-icon-mac {
+      transform: translateY(-6px) scale(1.05);
     }
-    .file-link {
-      font-family: 'DM Mono', monospace;
-      font-size: .62rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: .12em;
-      color: var(--crimson);
-      border-bottom: 1.5px solid var(--crimson);
-      padding-bottom: 1px;
-      transition: opacity .2s;
-    }
-    .file-card:hover .file-link { opacity: .7; }
 
-    /* close hint */
-    .close-hint {
-      font-family: 'DM Mono', monospace;
-      font-size: .65rem; color: rgba(26,26,26,.35);
-      text-align: center;
-      margin-top: 16px;
-      letter-spacing: .12em;
-      opacity: 0;
-      transition: opacity .4s ease .5s;
-      pointer-events: none;
-      position: absolute;
-      bottom: 10px;
-      left: 50%; transform: translateX(-50%);
-      white-space: nowrap;
+    .file-label-mac {
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 600;
+      color: var(--ink); text-align: center; white-space: nowrap;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 4px 10px; border-radius: 12px;
+      backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3);
     }
-    .folder-stage.open .close-hint { opacity: 1; }
+    
+    .file-desc-tooltip {
+      position: absolute; bottom: -38px; left: 50%; transform: translateX(-50%) translateY(10px);
+      background: var(--ink); color: var(--cream);
+      padding: 6px 12px; border-radius: 6px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; white-space: nowrap;
+      opacity: 0; pointer-events: none; transition: all 0.2s ease; z-index: 20;
+    }
+    .file-card:hover .file-desc-tooltip {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+    }
 
     /* ─── ACHIEVEMENTS ───────────────────────────────────── */
     #achievements { background: var(--cream); }
@@ -446,10 +441,13 @@
       .stats-row { grid-template-columns: repeat(2,1fr); padding: 60px 24px; }
       .certs-grid { grid-template-columns: 1fr; }
       .hero-inner { padding: 100px 24px 40px; }
-      .files-container { position: static; width: 100%; height: auto; transform: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
-      .file-card { position: static; width: 100%; opacity: 1; pointer-events: auto; transform: none !important; transition: none; }
+      
+      /* Mobile Vault Fix */
+      .folder-stage { padding-top: 40px; min-height: auto; align-items: stretch; }
+      .files-container { position: static; width: 100%; height: auto; transform: none; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 28px; margin-top: 24px; }
+      .file-card { position: static; transform: none !important; opacity: 1; pointer-events: auto; }
+      .file-desc-tooltip { display: none; } /* clean mobile view */
       .main-folder { display: none; }
-      .folder-stage { min-height: auto; }
       .close-hint { display: none; }
       .chaos-sub { margin-bottom: 32px; }
     }
@@ -466,7 +464,6 @@
 
   <div id="cursor-star">✦</div>
 
-  <!-- NAV -->
   <nav>
     <span class="nav-logo">uttara<em style="color:var(--crimson)">.</em></span>
     <div class="nav-links">
@@ -478,7 +475,6 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section id="hero">
     <div class="halftone-overlay"></div>
     <img src="download (4).jpg" class="shape shape-1" alt="" />
@@ -499,12 +495,10 @@
     </div>
   </section>
 
-  <!-- TICKER -->
   <div class="ticker-wrap">
     <div class="ticker-track" id="ticker"></div>
   </div>
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="section-wrap">
       <span class="section-label reveal">01 — About me</span>
@@ -549,7 +543,6 @@
     </div>
   </section>
 
-  <!-- STATS -->
   <section id="stats">
     <div class="halftone-overlay" style="opacity:.3"></div>
     <div class="stats-row">
@@ -560,7 +553,6 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="halftone-overlay" style="opacity:.04"></div>
     <div class="section-wrap">
@@ -599,7 +591,6 @@
     </div>
   </section>
 
-  <!-- ── CHAOS FOLDER ──────────────────────────────────────── -->
   <section id="chaos-folder">
     <div class="halftone-overlay" style="opacity:.18"></div>
     <div class="section-wrap" style="position:relative; z-index:1; overflow:visible;">
@@ -609,95 +600,59 @@
 
       <div class="folder-stage reveal" id="folderStage">
 
-        <!-- FILE CARDS (start stacked, fan out on click) -->
         <div class="files-container" id="filesContainer">
 
           <a class="file-card" id="file0" href="https://the-mafia-game-nu.vercel.app/" target="_blank" rel="noopener">
-            <div class="file-tab"></div>
-            <div class="file-body">
-              <span class="file-emoji">🎭</span>
-              <h3 class="file-title">Mafia Game</h3>
-              <p class="file-desc">Murder mystery, multiplayer, and completely chaotic.</p>
-              <span class="file-link">play ↗</span>
-            </div>
+            <div class="folder-icon-mac"></div>
+            <span class="file-label-mac">🎭 Mafia Game</span>
+            <div class="file-desc-tooltip">Murder mystery & chaotic multiplayer.</div>
           </a>
 
           <a class="file-card" id="file1" href="https://imposter-game-wine-eta.vercel.app/" target="_blank" rel="noopener">
-            <div class="file-tab"></div>
-            <div class="file-body">
-              <span class="file-emoji">👾</span>
-              <h3 class="file-title">Imposter Game</h3>
-              <p class="file-desc">Among Us vibes, built from scratch. Betrayal is a feature.</p>
-              <span class="file-link">play ↗</span>
-            </div>
+            <div class="folder-icon-mac"></div>
+            <span class="file-label-mac">👾 Imposter Game</span>
+            <div class="file-desc-tooltip">Among Us vibes built from scratch.</div>
           </a>
 
           <a class="file-card" id="file2" href="https://github.com/UttaraPraveen/How-Cooked-Are-You-" target="_blank" rel="noopener">
-            <div class="file-tab"></div>
-            <div class="file-body">
-              <span class="file-emoji">🔥</span>
-              <h3 class="file-title">How Cooked Are You?</h3>
-              <p class="file-desc">A quiz that tells you exactly how doomed you are. Honest.</p>
-              <span class="file-link">find out ↗</span>
-            </div>
+            <div class="folder-icon-mac"></div>
+            <span class="file-label-mac">🔥 How Cooked?</span>
+            <div class="file-desc-tooltip">A quiz that tells you how doomed you are.</div>
           </a>
 
           <a class="file-card" id="file3" href="https://uttarapraveen.github.io/Pomodoro-Timer/" target="_blank" rel="noopener">
-            <div class="file-tab"></div>
-            <div class="file-body">
-              <span class="file-emoji">🍅</span>
-              <h3 class="file-title">Pomodoro Timer</h3>
-              <p class="file-desc">Built to focus. Used to procrastinate building other things.</p>
-              <span class="file-link">use it ↗</span>
-            </div>
+            <div class="folder-icon-mac"></div>
+            <span class="file-label-mac">🍅 Pomodoro</span>
+            <div class="file-desc-tooltip">Used to procrastinate building other things.</div>
           </a>
 
           <a class="file-card" id="file4" href="https://bias-mirror-chi.vercel.app/" target="_blank" rel="noopener">
-            <div class="file-tab"></div>
-            <div class="file-body">
-              <span class="file-emoji">🪞</span>
-              <h3 class="file-title">Bias Mirror</h3>
-              <p class="file-desc">Holds a mirror to your cognitive biases. Uncomfortable. Important.</p>
-              <span class="file-link">reflect ↗</span>
-            </div>
+            <div class="folder-icon-mac"></div>
+            <span class="file-label-mac">🪞 Bias Mirror</span>
+            <div class="file-desc-tooltip">Holds a mirror to your cognitive biases.</div>
           </a>
 
           <div class="file-card" id="file5" style="cursor:default;">
-            <div class="file-tab"></div>
-            <div class="file-body">
-              <span class="file-emoji">💌</span>
-              <h3 class="file-title">Unsent Messages</h3>
-              <p class="file-desc">A graveyard for things you typed but never sent. Cathartic.</p>
-              <span class="file-link" style="opacity:.38; cursor:default; border-color:var(--muted); color:var(--muted);">coming soon</span>
-            </div>
+            <div class="folder-icon-mac"></div>
+            <span class="file-label-mac" style="opacity:.6;">💌 Unsent Msgs</span>
+            <div class="file-desc-tooltip">A graveyard for things typed but never sent.</div>
           </div>
 
         </div>
 
-        <!-- THE MAIN FOLDER -->
         <div class="main-folder" id="mainFolder" onclick="toggleFolder(event)">
           <div class="folder-back"></div>
-          <div class="folder-flap" id="folderFlap">
-            <div class="folder-flap-inner"></div>
-          </div>
           <div class="folder-front">
-            <div class="folder-label-area">
-              <span class="folder-tag">✦ TOP SECRET ✦</span>
-              <h3 class="folder-name">projects too<br><em>unhinged</em><br>for my résumé</h3>
-              <p class="folder-hint">click to open ✦</p>
-              <div class="folder-lines">
-                <span></span><span></span><span></span>
-              </div>
-            </div>
+            <h3 class="folder-name-cursive">Top Secret</h3>
+            <div class="folder-hint-box">click to explore <3</div>
           </div>
-          <!-- Bow -->
           <div class="folder-bow">
             <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M30 20 C20 8,4 4,8 14 C12 24,28 18,30 20" fill="#C8B8A2" opacity=".9"/>
-              <path d="M30 20 C40 8,56 4,52 14 C48 24,32 18,30 20" fill="#C8B8A2" opacity=".9"/>
-              <path d="M30 20 C20 32,4 36,8 26 C12 16,28 22,30 20" fill="#B8A892" opacity=".8"/>
-              <path d="M30 20 C40 32,56 36,52 26 C48 16,32 22,30 20" fill="#B8A892" opacity=".8"/>
-              <circle cx="30" cy="20" r="4" fill="#D4C4B0"/>
+              <path d="M30 20 C20 5, 5 10, 10 20 C15 30, 28 22, 30 20 Z" fill="#E6DCD0"/>
+              <path d="M30 20 C40 5, 55 10, 50 20 C45 30, 32 22, 30 20 Z" fill="#E6DCD0"/>
+              <path d="M30 20 C25 28, 15 38, 10 35 C15 25, 28 22, 30 20 Z" fill="#D4C4B4"/>
+              <path d="M30 20 C35 28, 45 38, 50 35 C45 25, 32 22, 30 20 Z" fill="#D4C4B4"/>
+              <circle cx="30" cy="20" r="4" fill="#F4EAE0"/>
             </svg>
           </div>
         </div>
@@ -707,7 +662,6 @@
     </div>
   </section>
 
-  <!-- ACHIEVEMENTS -->
   <section id="achievements">
     <div class="section-wrap">
       <span class="section-label reveal">03 — Wins & leadership</span>
@@ -725,7 +679,6 @@
     </div>
   </section>
 
-  <!-- TIMELINE -->
   <section id="timeline">
     <div class="halftone-overlay" style="opacity:.3"></div>
     <div class="section-wrap">
@@ -741,7 +694,6 @@
     </div>
   </section>
 
-  <!-- CERTS -->
   <section id="certs">
     <div class="section-wrap">
       <span class="section-label reveal">05 — Credentials</span>
@@ -754,7 +706,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="halftone-overlay" style="opacity:.08; --dot-col: rgba(255,255,255,0.3)"></div>
     <div class="contact-bg-text">hello.</div>
@@ -864,15 +815,14 @@
     /* ── CHAOS FOLDER ── */
     let folderOpen = false;
 
-    // Fan positions for 6 files spread in an arc above the folder
-    // [left, top, rotate, scale, zIndex]
+    // Radial Fan positions for the files (forming a clean semi-circle around the main folder)
     const FAN = [
-      { left: '-60px',   top: '-270px', rotate: '-28deg', scale: 1,    z: 6  },
-      { left: '80px',    top: '-300px', rotate: '-14deg', scale: 1,    z: 7  },
-      { left: '230px',   top: '-310px', rotate:  '-2deg', scale: 1,    z: 8  },
-      { left: '390px',   top: '-300px', rotate:  '12deg', scale: 1,    z: 7  },
-      { left: '530px',   top: '-275px', rotate:  '24deg', scale: 1,    z: 6  },
-      { left: '640px',   top: '-240px', rotate:  '36deg', scale: 0.95, z: 5  },
+      { x: -340, y: -200, rotate: -18, scale: 1 },
+      { x: -190, y: -300, rotate: -10, scale: 1 },
+      { x: 0,    y: -340, rotate: 0,   scale: 1 },
+      { x: 190,  y: -300, rotate: 10,  scale: 1 },
+      { x: 340,  y: -200, rotate: 18,  scale: 1 },
+      { x: 0,    y: -180, rotate: 0,   scale: 0.95 }, // Falls right behind the open flap
     ];
 
     function toggleFolder(e) {
@@ -885,29 +835,15 @@
       files.forEach((f, i) => {
         if (folderOpen) {
           const pos = FAN[i] || FAN[FAN.length - 1];
-          f.style.transitionDelay = (i * 0.07) + 's';
-          f.style.left = pos.left;
-          f.style.top = pos.top;
-          f.style.transform = `translate(0,0) rotate(${pos.rotate}) scale(${pos.scale})`;
-          f.style.zIndex = pos.z;
+          f.style.transitionDelay = (i * 0.06) + 's';
+          // Move outward radially
+          f.style.transform = `translate(calc(-50% + ${pos.x}px), calc(-50% + ${pos.y}px)) rotate(${pos.rotate}deg) scale(${pos.scale})`;
         } else {
-          // Collapse back in reverse
-          f.style.transitionDelay = ((files.length - 1 - i) * 0.05) + 's';
-          f.style.left = '50%';
-          f.style.top = '50%';
-          f.style.transform = 'translate(-50%,-20%) scale(0.6) rotate(0deg)';
-          f.style.zIndex = 5;
+          // Collapse back to center
+          f.style.transitionDelay = ((files.length - 1 - i) * 0.04) + 's';
+          f.style.transform = 'translate(-50%, -50%) scale(0.5) rotate(0deg)';
         }
       });
-
-      // Wiggle the folder on open
-      const folder = document.getElementById('mainFolder');
-      folder.style.transition = 'transform .15s ease';
-      folder.style.transform = 'rotate(2deg) scale(1.04)';
-      setTimeout(() => {
-        folder.style.transform = folderOpen ? 'rotate(0deg) scale(1.03)' : 'rotate(0deg) scale(1)';
-        folder.style.transition = 'transform .3s ease';
-      }, 150);
     }
 
     // Prevent file clicks from closing the folder
