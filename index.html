@@ -48,6 +48,9 @@
       user-select: none;
     }
     body.cursor-hover #cursor-star { color: var(--ink); font-size: 32px; }
+    /* Switch cursor color over the contact section */
+    body.over-contact #cursor-star { color: var(--cream); }
+    body.over-contact.cursor-hover #cursor-star { color: var(--yellow); }
 
     /* ─── HALFTONE TEXTURE ──────────────────────────────── */
     .halftone-overlay {
@@ -857,6 +860,13 @@
   </footer>
 
   <script>
+    /* ── CURSOR COLOR FIX FOR CONTACT SECTION ── */
+    const contactSec = document.getElementById('contact');
+    if(contactSec) {
+      contactSec.addEventListener('mouseenter', () => document.body.classList.add('over-contact'));
+      contactSec.addEventListener('mouseleave', () => document.body.classList.remove('over-contact'));
+    }
+    
     /* ── LOADER ── */
     window.addEventListener('load', () => {
       setTimeout(() => { document.getElementById('page-loader').classList.add('hidden'); }, 1200);
